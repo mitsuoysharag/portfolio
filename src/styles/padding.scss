@@ -1,0 +1,20 @@
+$spacer: 5px;
+
+.pa-0 {
+  padding: 0 !important;
+}
+.pa-1 {
+  padding: ($spacer * 1) !important;
+}
+.pa-2 {
+  padding: ($spacer * 2) !important;
+}
+.pa-3 {
+  padding: ($spacer * 3) !important;
+}
+.pa-4 {
+  padding: ($spacer * 4) !important;
+}
+.pa-5 {
+  padding: ($spacer * 5) !important;
+}

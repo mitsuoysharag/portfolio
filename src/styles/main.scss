@@ -1,0 +1,38 @@
+@import './button.scss';
+@import './card.scss';
+@import './margin.scss';
+@import './padding.scss';
+@import './neumorphism.scss';
+
+@import './bootstrap-grid.min.css';
+
+
+body {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (max-width: 1200px) { 
+  html {
+    font-size: 16px;
+  }
+}
+// Large devices (desktops, 992px and up)
+@media (max-width: 992px) { 
+  html {
+    font-size: 15px;
+  }
+}
+// Medium devices (tablets, 768px and up)
+@media (max-width: 768px) { 
+  html {
+    font-size: 14px;
+  }
+}
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 576px) { 
+  html {
+    font-size: 13px;
+  } 
+}

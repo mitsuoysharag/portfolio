@@ -1,0 +1,33 @@
+$color: #7aa7e7;
+$distance: 8px;
+$intensity: 0.1;
+$intensity-hover: 0.05;
+$intensity-pressed: 0.2;
+
+.neu {
+  background: $color;
+  box-shadow: $distance $distance 9px rgba(0, 0, 0, $intensity),
+    -$distance (-$distance) 9px rgba(255, 255, 255, $intensity);
+  &.neu--btn {
+    transition: all 0.3s;
+    &:hover {
+      box-shadow: $distance $distance 9px rgba(0, 0, 0, $intensity),
+        (-$distance) (-$distance) 9px rgba(255, 255, 255, $intensity),
+        inset $distance $distance 9px rgba(0, 0, 0, $intensity-hover),
+        inset (-$distance) (-$distance) 9px
+          rgba(255, 255, 255, $intensity-hover);
+    }
+    &:hover * {
+      transition: all 0.1s;
+      transform: scale(0.96);
+    }
+  }
+  &.neu--pressed {
+    box-shadow: inset $distance $distance 9px rgba(0, 0, 0, $intensity-pressed),
+      inset (-$distance) (-$distance) 9px
+        rgba(255, 255, 255, $intensity-pressed);
+    & * {
+      transform: scale(0.92);
+    }
+  }
+}
