@@ -63,14 +63,16 @@ export default {
 
 <style lang='scss' scoped>
 .skills {
-  padding: 80px 20px 90px;
+  padding: 120px 20px 120px;
   background: #4b22f4;
   color: #fff;
   &__title {
-    margin: 0 0 40px 0;
+    max-width: 1000px;
+    margin: 0 auto 60px;
     font-size: 3.5rem;
   }
   &__body {
+    max-width: 1000px;
     margin: 0 auto;
     padding: 10px;
   }
@@ -100,6 +102,18 @@ export default {
     font-size: 0.85rem;
     font-weight: bold;
     border-radius: 20px;
+  }
+}
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 768px) {
+  .skills {
+    &__title {
+      margin-left: 0;
+      text-align: center;
+    }
+    &__body {
+      width: min-content;
+    }
   }
 }
 </style>

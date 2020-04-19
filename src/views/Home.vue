@@ -1,21 +1,30 @@
 <template>
   <div>
+    <Chatbot />
+    <Header />
+    <Presentation />
     <Skills />
     <Projects />
-    <Neuromorphism />
   </div>
 </template>
 
 <script>
+import Header from "@/components/Header";
+import Presentation from "@/components/Presentation";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Neuromorphism from "@/components/Neumorphism";
+import Chatbot from "@/components/Chatbot";
 
 export default {
   components: {
+    Header,
+    Presentation,
     Skills,
     Projects,
-    Neuromorphism
+    Chatbot
   }
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

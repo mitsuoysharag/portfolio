@@ -9,7 +9,6 @@
               class="card__image"
               :style="{background: `url(${project.image})`, 'background-size': 'cover',  'background-position': 'center'}"
             ></div>
-            <!-- <img class="card__image" :src="project.image" /> -->
             <div class="card__body">
               <h3 class="card__title">{{project.title}}</h3>
               <p class="card__text">{{project.content}}</p>
@@ -60,6 +59,12 @@ export default {
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus suscipit id maiores hic ea nobis libero.",
         link: "https://beinplace.com.pe"
+      },
+      {
+        image: require("@/assets/projects/belling.png"),
+        title: "Belling",
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus suscipit id maiores hic ea nobis libero."
       }
     ]
   })
@@ -68,9 +73,10 @@ export default {
 
 <style lang='scss' scoped>
 .projects {
-  padding: 40px 0 80px;
+  padding: 60px 10px 100px;
 
   &__title {
+    margin-bottom: 72px;
     text-align: center;
     font-size: 3.5rem;
   }

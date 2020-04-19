@@ -5,11 +5,30 @@
 @import './neumorphism.scss';
 
 @import './bootstrap-grid.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
 
 body {
   margin: 0;
   font-family: "Nunito", sans-serif;
+}
+
+::-webkit-scrollbar {
+  -webkit-border-radius: 5px;
+  background-color: transparent;
+  border-radius: 5px;
+  height: 10px;
+  transition: background-color .2s linear;
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 5px;
+  background: #aaa;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: background-color .2s linear;
 }
 
 // Extra large devices (large desktops, 1200px and up)
