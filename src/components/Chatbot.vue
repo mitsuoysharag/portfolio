@@ -8,73 +8,147 @@
       <div class="chat__close" @click="show_chat = false">
         <i class="fa fa-close"></i>
       </div>
-      <div style="height: 150px; padding: 20px; overflow-y: auto">
-        <p v-for="(message, idx) in messages" :key="idx">{{message}}</p>
+      <Avatar class="avatar" />
+      <div id="messages" class="chat__messages">
+        <p
+          class="chat__message"
+          :class="`chat__message--${message.type}`"
+          v-for="(message, idx) in messages"
+          :key="idx"
+        >{{message.text}}</p>
       </div>
-      <div class="chat__message">
+      <div class="chat__new-message">
         <div
           contenteditable
           class="chat__input"
-          @input="setMessage($event)"
+          ref="input"
+          @input="setMessage()"
           @keydown="pressEnter($event)"
         ></div>
+        <button class="chat__button button button--icon" @click="sendMessage()">
+          <i class="fa fa-send"></i>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Avatar from "@/components/Chatbot/Avatar";
+import { train, getAnswer } from "@/services/chatbot";
+
 export default {
   data: () => ({
     show_chat: true,
     message: "",
-    messages: []
+    messages: [
+      {
+        text: "Hola. ¿En qué puedo ayudarte?",
+        type: 0
+      }
+    ],
+    knowledge: [
+      {
+        questions: ["hola", "hey"],
+        answers: ["Hola, ¿Te ayudo en algo?", "Hey, ¿En qué te ayudo?"]
+      },
+      {
+        questions: ["adiós", "chau", "nos vemos"],
+        answers: ["Adiós.", "Nos vemos."]
+      },
+      {
+        questions: ["gracias", "muchas gracias"],
+        answers: ["No hay de qué.", "De nada."]
+      },
+      {
+        questions: ["¿Qué eres?"],
+        answers: [
+          "Soy un bot programado para aclarar tus dudas.",
+          "Soy un bot que puede responder tus dudas."
+        ]
+      }
+    ]
   }),
+  mounted() {
+    train(this.knowledge);
+  },
   methods: {
-    setMessage(e) {
-      this.message = e.target.innerText;
+    sendMessage() {
+      let text = this.message.trim();
+      if (text) {
+        this.addMessage(text, 1);
+        this.message = "";
+        this.$refs.input.innerText = "";
+        // Get Answer
+        let answers = getAnswer(this.knowledge, text);
+        let answer = answers[Math.floor(Math.random() * answers.length)];
+        this.addMessage(answer, 0);
+      }
+    },
+    addMessage(text, type) {
+      let message = {
+        text,
+        type
+      };
+      this.messages.push(message);
+      setTimeout(() => {
+        this.scrollDown("messages");
+      }, 50);
+    },
+    //
+    setMessage() {
+      this.message = this.$refs.input.innerText;
     },
     pressEnter(e) {
       if (e.keyCode === 13) {
         e.preventDefault();
-        this.sendMessage(e);
+        this.sendMessage();
       }
     },
-    sendMessage(e) {
-      this.messages.push(this.message);
-      this.message = "";
-      e.target.innerText = "";
+    scrollDown(element_id) {
+      var element = element_id ? document.getElementById(element_id) : window;
+      element.scrollTo({
+        top: 20000,
+        behavior: "smooth"
+      });
     }
+  },
+  components: {
+    Avatar
   }
 };
 </script>
 
 <style lang='scss' scoped>
+$color: #5e4eeb;
+
 .chatbot {
   position: fixed;
-  top: 28px;
-  left: 28px;
-  bottom: 28px;
-  right: 28px;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
   z-index: 1;
+  pointer-events: none;
 
   &__show {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 30px 26px 22px;
+    bottom: 24px;
+    right: 24px;
+    padding: 24px 22px 20px;
     background: #fff;
     border-radius: 50%;
     box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
     transition: all 0.5s;
+    pointer-events: all;
     cursor: pointer;
 
     &:hover {
       background: #d5e8ff;
     }
     img {
-      height: 42px;
-      width: 42px;
+      height: 38px;
+      width: 38px;
       vertical-align: bottom;
     }
   }
@@ -82,35 +156,90 @@ export default {
 
 .chat {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  max-width: 320px;
+  bottom: 24px;
+  right: 24px;
   width: 100%;
-  // padding: 10px;
+  height: 100%;
+  max-width: 360px;
+  max-height: 560px;
   border-radius: 10px;
   transition: all 0.5s;
+  pointer-events: all;
+  //
+  display: flex;
+  flex-direction: column;
 
   &__close {
-    float: right;
-    margin-right: 4px;
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    color: #fff;
+    font-size: 20px;
     cursor: pointer;
   }
+  &__messages {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 4px 6px;
+    background: #eee;
+    //
+    display: flex;
+    flex-direction: column;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #c2c2c2 !important;
+    }
+  }
   &__message {
+    margin: 4px 0;
+    padding: 6px 12px;
+    width: max-content;
+    max-width: 80%;
+    font-size: 0.95rem;
+    border-radius: 14px;
+    // word-break: break-all;
+
+    &--0 {
+      background: #fff;
+      border-bottom-left-radius: 0;
+    }
+    &--1 {
+      margin-left: auto;
+      background: $color;
+      color: #fff;
+      border-bottom-right-radius: 0;
+    }
+  }
+  &__new-message {
+    margin: 4px 4px 4px 9px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
   }
   &__input {
+    flex-grow: 1;
     overflow-x: auto;
     white-space: nowrap;
     padding: 2px 0;
-    margin: 8px;
-    border-bottom: 1.5px solid #b9b9b9;
+    border-bottom: 1.2px solid #b9b9b9;
     &:focus {
-      border-bottom: 1.5px solid #65a9fd;
+      border-bottom: 1.2px solid $color;
       outline: none;
     }
     &::-webkit-scrollbar {
       display: none;
     }
   }
+  &__button {
+    color: $color;
+  }
+}
+
+.avatar {
+  border-radius: 10px 10px 0 0;
 }
 
 .disable {
@@ -119,28 +248,41 @@ export default {
 }
 
 // Small devices (landscape phones, 576px and up)
-@media (max-width: 768px) {
+// @media (max-width: 768px) {
+//   .chatbot {
+//     &__show {
+//       margin: 18px;
+//       padding: 27px 24px 21px;
+//     }
+//     img {
+//       height: 38px;
+//       width: 38px;
+//     }
+//   }
+// }
+@media (max-width: 576px) {
+  .avatar {
+    border-radius: 0;
+  }
   .chatbot {
     &__show {
-      margin: 18px;
-      padding: 27px 24px 21px;
-    }
-    img {
-      height: 38px;
-      width: 38px;
+      bottom: 12px;
+      right: 12px;
+      padding: 18px 16px 14px;
+      img {
+        height: 28px;
+        width: 28px;
+      }
     }
   }
-}
-@media (max-width: 576px) {
-  .chatbot {
-    &__show {
-      margin: 10px;
-      padding: 20px 18px 16px;
-    }
-    img {
-      height: 28px;
-      width: 28px;
-    }
+  .chat {
+    max-height: 100%;
+    max-width: 100%;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    left: 0;
+    border-radius: 0;
   }
 }
 </style>

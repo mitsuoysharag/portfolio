@@ -13,13 +13,14 @@
   font-weight: bold;
   border: none;
   text-decoration: none;
-  // border-radius: 20px;
   transition: all .3s;
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  
   &:focus {
     outline: none;
   }
-  @include button-color(#fff, #cecece, #646464);
+  @include button-color(#fff, #e0e0e0, #646464);
 
   &--red {
     @include button-color(#ff7575, #df4b4b, #fff);
@@ -32,5 +33,13 @@
   }
   &--yellow {
     @include button-color(#fcd658, #e9b819, #fff);
+  }
+
+  &--icon {
+    flex-shrink: 0;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
   }
 }
