@@ -3,7 +3,7 @@
     <div class="chatbot__show" @click="show_chat = true" :class="{disable: show_chat}">
       <img src="@/assets/chatbot/chat.png" alt />
     </div>
-    <!--  -->
+    <!-- Chatbot -->
     <div class="chat card" :class="{disable: !show_chat}">
       <div class="chat__close" @click="show_chat = false">
         <i class="fa fa-close"></i>
@@ -39,11 +39,9 @@ import Avatar from "@/components/Chatbot/Avatar";
 import { getKnowledge } from "@/services/knowledgeService"
 import { train, getAnswer } from "@/services/chatbot";
 
-// import * as firebase from "firebase/app";
-
 export default {
   data: () => ({
-    show_chat: true,
+    show_chat: false,
     message: "",
     messages: [
       {
@@ -80,18 +78,7 @@ export default {
         this.scrollDown("messages");
       }, 50);
     },
-    //
-    // async getKnowledge() {
-    //   let response = await firebase
-    //     .firestore()
-    //     .collection("knowledge")
-    //     .get();
-    //   let knowledge = response.docs.map(doc => ({
-    //     id: doc.id,
-    //     ...doc.data()
-    //   }));
-    //   return knowledge;
-    // },
+    // 
     setMessage() {
       this.message = this.$refs.input.innerText;
     },
