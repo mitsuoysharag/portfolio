@@ -35,7 +35,11 @@
 
 <script>
 import Avatar from "@/components/Chatbot/Avatar";
+
+import { getKnowledge } from "@/services/knowledgeService"
 import { train, getAnswer } from "@/services/chatbot";
+
+// import * as firebase from "firebase/app";
 
 export default {
   data: () => ({
@@ -47,29 +51,10 @@ export default {
         type: 0
       }
     ],
-    knowledge: [
-      {
-        questions: ["hola", "hey"],
-        answers: ["Hola, ¿Te ayudo en algo?", "Hey, ¿En qué te ayudo?"]
-      },
-      {
-        questions: ["adiós", "chau", "nos vemos"],
-        answers: ["Adiós.", "Nos vemos."]
-      },
-      {
-        questions: ["gracias", "muchas gracias"],
-        answers: ["No hay de qué.", "De nada."]
-      },
-      {
-        questions: ["¿Qué eres?"],
-        answers: [
-          "Soy un bot programado para aclarar tus dudas.",
-          "Soy un bot que puede responder tus dudas."
-        ]
-      }
-    ]
+    knowledge: []
   }),
-  mounted() {
+  async mounted() {
+    this.knowledge = await getKnowledge();
     train(this.knowledge);
   },
   methods: {
@@ -96,6 +81,17 @@ export default {
       }, 50);
     },
     //
+    // async getKnowledge() {
+    //   let response = await firebase
+    //     .firestore()
+    //     .collection("knowledge")
+    //     .get();
+    //   let knowledge = response.docs.map(doc => ({
+    //     id: doc.id,
+    //     ...doc.data()
+    //   }));
+    //   return knowledge;
+    // },
     setMessage() {
       this.message = this.$refs.input.innerText;
     },
