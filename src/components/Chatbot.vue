@@ -36,12 +36,11 @@
 <script>
 import Avatar from "@/components/Chatbot/Avatar";
 
-import { getKnowledge } from "@/services/knowledgeService"
-import { train, getAnswer } from "@/services/chatbot";
+import { getKnowledge } from "@/services/knowledgeService";
+import Chatbot from "@/services/chatbot";
 
 export default {
   data: () => ({
-    show_chat: false,
     message: "",
     messages: [
       {
@@ -49,11 +48,15 @@ export default {
         type: 0
       }
     ],
-    knowledge: []
+    chatbot: null,
+    knowledge: [],
+    //
+    show_chat: false
   }),
   async mounted() {
     this.knowledge = await getKnowledge();
-    train(this.knowledge);
+    this.chatbot = new Chatbot();
+    this.chatbot.train(this.knowledge);
   },
   methods: {
     sendMessage() {
@@ -63,9 +66,12 @@ export default {
         this.message = "";
         this.$refs.input.innerText = "";
         // Get Answer
-        let answers = getAnswer(this.knowledge, text);
-        let answer = answers[Math.floor(Math.random() * answers.length)];
-        this.addMessage(answer, 0);
+        if (this.chatbot) {
+          let answers = this.chatbot.getAnswer(text);
+          let answer = answers[Math.floor(Math.random() * answers.length)];
+          this.addMessage(answer, 0);
+          this.chatbot.talk(answer);
+        }
       }
     },
     addMessage(text, type) {
@@ -78,7 +84,7 @@ export default {
         this.scrollDown("messages");
       }, 50);
     },
-    // 
+    //
     setMessage() {
       this.message = this.$refs.input.innerText;
     },
