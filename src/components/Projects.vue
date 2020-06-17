@@ -42,7 +42,7 @@ export default {
         link: "https://braintutor.github.io/braintutor"
       },
       {
-        image: "https://techscloud.com/wp-content/uploads/2019/05/Ai.jpg",
+        image: "https://blog.desafiolatam.com/wp-content/uploads/2018/10/chatbot-y-humano.png",
         title: "MitJS",
         content:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus suscipit id maiores hic ea nobis libero."

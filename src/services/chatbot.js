@@ -7,13 +7,13 @@ export default class Chatbot {
     this.model = null
     this.knowledge = []
     // Voice
+    this.msg = new SpeechSynthesisUtterance();
+    this.msg.rate = 1.15;
+    this.msg.pitch = 1
     window.speechSynthesis.onvoiceschanged = () => {
       let voices = window.speechSynthesis.getVoices()
       voices = voices.filter(voice => voice.lang.substring(0, 2) === 'es')
-      this.msg = new SpeechSynthesisUtterance();
       if (voices[2]) this.msg.voice = voices[2] // or 3
-      this.msg.rate = 1.15;
-      this.msg.pitch = 1
     };
   }
 
